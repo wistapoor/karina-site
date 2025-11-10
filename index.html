@@ -26,7 +26,7 @@
     padding: 25px 20px;
     box-shadow: 0 0 15px rgba(195, 138, 26, 0.7);
   }
-  button {
+  button, #writeMe {
     background-color: #d38c00;
     border: none;
     padding: 12px 30px;
@@ -37,8 +37,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     position: relative;
+    text-decoration: none;
+    display: inline-block;
   }
-  button:hover {
+  button:hover, #writeMe:hover {
     background-color: #a86e00;
   }
   #noBtn {
@@ -116,19 +118,21 @@
 
 <div id="mainQuestion" class="hidden">
   <h2>Карина, ты передумала?</h2>
-  <div id="buttons">
+  <div id="buttons" style="position: relative; height: 60px;">
     <button id="yesBtn">Да</button>
     <button id="noBtn">Нет</button>
   </div>
   <div id="message"></div>
   <div id="timerMessage"></div>
+  <a href="https://t.me/wistapoor_mng" target="_blank" id="writeMe" class="hidden">Напиши мне</a>
 </div>
 
 <div id="letter" class="hidden">
   <h2>Моё искреннее письмо</h2>
   <p>Карина, я хочу искренне извиниться за то, что наши отношения закончились плохо. Я очень сильно тебя люблю и хочу встретиться, чтобы всё исправить и начать заново.</p>
   <p>Я правда искренне сожалею за всё что было,</p>
-  <p>Надеюсь ты всё таки меня простишь и всё будет хорошо</p>
+  <p>Надеюсь ты всё таки меня простишь</p>
+  <p>И всё будет хорошо!!</p>
 </div>
 
 <script>
@@ -151,6 +155,7 @@
   const noBtn = document.getElementById('noBtn');
   const message = document.getElementById('message');
   const timerMessage = document.getElementById('timerMessage');
+  const writeMe = document.getElementById('writeMe');
 
   let noClicks = 0;
 
@@ -166,6 +171,7 @@
       } else if (!q3.classList.contains('hidden')) {
         survey.classList.add('hidden');
         mainQuestion.classList.remove('hidden');
+        startTimer();
       } else {
         nextQuestion(q1, q2);
       }
@@ -197,6 +203,9 @@
 
     letter.classList.remove('hidden');
 
+    // Показываем ссылку "Напиши мне"
+    writeMe.classList.remove('hidden');
+
     const heart = document.createElement('div');
     heart.classList.add('heart');
     heart.style.left = (e.clientX - 20) + 'px';
@@ -210,14 +219,6 @@
       timerMessage.textContent = 'Карина, подумай хорошенько!';
     }, 10000);
   }
-
-  const observer = new MutationObserver(() => {
-    if (!mainQuestion.classList.contains('hidden')) {
-      startTimer();
-      observer.disconnect();
-    }
-  });
-  observer.observe(mainQuestion, { attributes: true, attributeFilter: ['class'] });
 </script>
 
 </body>
