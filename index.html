@@ -6,47 +6,28 @@
 <title>Карина, ты передумала?</title>
 <style>
   body {
-    background: linear-gradient(135deg, #ff90b3, #ff5ca2);
+    background-color: #ffe4e8; /* мягкий светло-розовый */
     font-family: Arial, sans-serif;
     text-align: center;
     padding: 40px 20px;
-    color: #fff;
+    color: #5a3e1b;
     position: relative;
     min-height: 100vh;
     overflow-x: hidden;
   }
-  /* Мелкие сердечки по фону */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image:
-      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.15) 8px, transparent 9px),
-      radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.1) 6px, transparent 7px),
-      radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15) 10px, transparent 11px),
-      radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.12) 7px, transparent 8px);
-    background-repeat: repeat;
-    background-size: 100px 100px;
-    pointer-events: none;
-    z-index: 0;
-  }
   h1, h2 {
-    text-shadow: 2px 2px 6px #c71585;
-    z-index: 1;
-    position: relative;
+    text-shadow: 2px 2px 6px #c38a1a;
   }
   #survey, #mainQuestion, #letter {
     max-width: 500px;
     margin: 20px auto;
-    background: rgba(255, 105, 180, 0.85);
+    background: rgba(255, 240, 245, 0.9);
     border-radius: 15px;
     padding: 25px 20px;
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
-    position: relative;
-    z-index: 1;
+    box-shadow: 0 0 15px rgba(195, 138, 26, 0.7);
   }
   button {
-    background-color: #ff3385;
+    background-color: #d38c00;
     border: none;
     padding: 12px 30px;
     margin: 15px 10px 0 10px;
@@ -58,7 +39,7 @@
     position: relative;
   }
   button:hover {
-    background-color: #e6006e;
+    background-color: #a86e00;
   }
   #noBtn {
     position: absolute;
@@ -66,13 +47,12 @@
   #message {
     margin-top: 25px;
     font-size: 1.8em;
-    text-shadow: 1px 1px 4px #c71585;
+    text-shadow: 1px 1px 4px #c38a1a;
     min-height: 2.5em;
   }
   .hidden {
     display: none;
   }
-  /* Новая анимация сердечка */
   .heart {
     position: fixed;
     width: 40px;
@@ -98,16 +78,16 @@
   #timerMessage {
     margin-top: 20px;
     font-size: 1.3em;
-    color: #fff;
-    text-shadow: 1px 1px 4px #c71585;
+    color: #5a3e1b;
+    text-shadow: 1px 1px 4px #c38a1a;
     min-height: 1.5em;
   }
   #letter p {
     font-size: 1.1em;
     line-height: 1.5;
     margin-top: 10px;
-    color: #fff;
-    text-shadow: 1px 1px 4px #c71585;
+    color: #5a3e1b;
+    text-shadow: 1px 1px 4px #c38a1a;
   }
 </style>
 </head>
@@ -153,13 +133,11 @@
 <script>
   let userName = '';
 
-  // Спросим имя сразу, как в прошлый раз
   while (!userName) {
     userName = prompt('Пожалуйста, введи своё имя:');
     if (!userName) alert('Имя не может быть пустым!');
   }
 
-  // Переменные для элементов
   const survey = document.getElementById('survey');
   const mainQuestion = document.getElementById('mainQuestion');
   const letter = document.getElementById('letter');
@@ -175,7 +153,6 @@
 
   let noClicks = 0;
 
-  // Обработка кнопок опроса
   function nextQuestion(current, next) {
     current.classList.add('hidden');
     next.classList.remove('hidden');
@@ -184,20 +161,16 @@
   survey.addEventListener('click', e => {
     if (e.target.tagName === 'BUTTON') {
       if (!q2.classList.contains('hidden')) {
-        // q2 кнопки
         nextQuestion(q2, q3);
       } else if (!q3.classList.contains('hidden')) {
-        // q3 кнопки
         survey.classList.add('hidden');
         mainQuestion.classList.remove('hidden');
       } else {
-        // q1 кнопки
         nextQuestion(q1, q2);
       }
     }
   });
 
-  // Позиция кнопки "Нет"
   noBtn.style.position = 'absolute';
   noBtn.style.left = '50%';
   noBtn.style.top = '0';
@@ -206,13 +179,11 @@
     noClicks++;
     message.textContent = `Ты уже пыталась нажать "Нет" ${noClicks} раз, но я всё равно жду "Да"!`;
 
-    // Телепортируем кнопку "Нет"
     const x = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
     const y = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight - 150)) + 50;
     noBtn.style.left = x + 'px';
     noBtn.style.top = y + 'px';
 
-    // Показываем письмо после 2-го нажатия
     if (noClicks === 2) {
       letter.classList.remove('hidden');
     }
@@ -223,10 +194,8 @@
     yesBtn.disabled = true;
     noBtn.disabled = true;
 
-    // Показать письмо
     letter.classList.remove('hidden');
 
-    // Анимация сердца
     const heart = document.createElement('div');
     heart.classList.add('heart');
     heart.style.left = (e.clientX - 20) + 'px';
@@ -235,14 +204,12 @@
     setTimeout(() => heart.remove(), 2000);
   });
 
-  // Таймер подсказка через 10 секунд после главного вопроса
   function startTimer() {
     setTimeout(() => {
       timerMessage.textContent = 'Карина, подумай хорошенько!';
     }, 10000);
   }
 
-  // Запуск таймера, когда показываем главный вопрос
   const observer = new MutationObserver(() => {
     if (!mainQuestion.classList.contains('hidden')) {
       startTimer();
@@ -250,7 +217,6 @@
     }
   });
   observer.observe(mainQuestion, { attributes: true, attributeFilter: ['class'] });
-
 </script>
 
 </body>
