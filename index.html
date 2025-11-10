@@ -1,84 +1,232 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Карина 💖</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Карина, ты передумала?</title>
 <style>
   body {
-    background-color: pink;
-    background-image: radial-gradient(white 1px, transparent 1px),
-                      radial-gradient(white 1px, transparent 1px);
-    background-position: 0 0, 25px 25px;
+    background: pink url('https://i.imgur.com/8pXk6z7.png') repeat;
     background-size: 50px 50px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: "Comic Sans MS", cursive;
-    overflow: hidden;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 40px 20px;
+    color: #fff;
+    position: relative;
+    min-height: 100vh;
   }
-
-  h1 {
-    color: crimson;
-    font-size: 2em;
-    text-shadow: 1px 1px 2px white;
+  h1, h2 {
+    text-shadow: 2px 2px 5px #c71585;
   }
-
-  .buttons {
-    margin-top: 30px;
+  #survey, #mainQuestion, #letter {
+    max-width: 500px;
+    margin: 20px auto;
+    background: rgba(255, 105, 180, 0.85);
+    border-radius: 15px;
+    padding: 25px 20px;
   }
-
   button {
-    background-color: white;
-    border: 2px solid hotpink;
-    border-radius: 10px;
-    padding: 10px 20px;
+    background-color: #ff69b4;
+    border: none;
+    padding: 12px 30px;
+    margin: 15px 10px 0 10px;
     font-size: 1.2em;
-    margin: 0 15px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  button:hover {
-    background-color: hotpink;
     color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
   }
-
+  button:hover {
+    background-color: #ff1493;
+  }
+  #noBtn {
+    position: absolute;
+  }
   #message {
-    margin-top: 30px;
-    font-size: 2em;
-    color: red;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px white;
+    margin-top: 25px;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 3px #c71585;
+  }
+  .hidden {
+    display: none;
+  }
+  /* Анимация сердца */
+  .heart {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background: url('https://i.imgur.com/oY0b2lV.png') no-repeat center center/contain;
+    pointer-events: none;
+    animation: flyUp 1.5s forwards;
+    z-index: 1000;
+  }
+  @keyframes flyUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-150px) scale(1.5);
+    }
+  }
+  #timerMessage {
+    margin-top: 20px;
+    font-size: 1.3em;
+    color: #fff;
+    text-shadow: 1px 1px 3px #c71585;
+  }
+  #letter p {
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-top: 10px;
+    color: #fff;
+    text-shadow: 1px 1px 3px #c71585;
   }
 </style>
 </head>
 <body>
-  <h1>Карина, ты передумала? 💕</h1>
-  <div class="buttons">
+
+<h1>Привет, Карина!</h1>
+
+<div id="survey">
+  <h2>Несколько вопросов перед важным</h2>
+  <div id="q1">
+    <p>1. Как ты себя чувствуешь сегодня?</p>
+    <button data-answer="Хорошо">Хорошо</button>
+    <button data-answer="Не очень">Не очень</button>
+  </div>
+  <div id="q2" class="hidden">
+    <p>2. Ты помнишь наши хорошие моменты?</p>
+    <button data-answer="Да, очень">Да, очень</button>
+    <button data-answer="Скорее нет">Скорее нет</button>
+  </div>
+  <div id="q3" class="hidden">
+    <p>3. Ты готова дать мне шанс объясниться?</p>
+    <button data-answer="Готова">Готова</button>
+    <button data-answer="Еще не готова">Еще не готова</button>
+  </div>
+</div>
+
+<div id="mainQuestion" class="hidden">
+  <h2>Карина, ты передумала?</h2>
+  <div id="buttons">
     <button id="yesBtn">Да</button>
     <button id="noBtn">Нет</button>
   </div>
   <div id="message"></div>
+  <div id="timerMessage"></div>
+</div>
 
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const message = document.getElementById("message");
+<div id="letter" class="hidden">
+  <h2>Моё искреннее письмо</h2>
+  <p>Карина, я хочу искренне извиниться за то, что наши отношения закончились плохо. Я очень сильно тебя люблю и хочу встретиться, чтобы всё исправить и начать заново.</p>
+  <p>Ты для меня очень важна, и я готов бороться за наше счастье.</p>
+</div>
 
-    yesBtn.addEventListener("click", () => {
-      message.textContent = "УРАААААА наконец то 🎉💖";
-    });
+<script>
+  let userName = '';
 
-    noBtn.addEventListener("click", () => {
-      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-      noBtn.style.position = "absolute";
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-    });
-  </script>
+  // Спросим имя сразу, как в прошлый раз
+  while (!userName) {
+    userName = prompt('Пожалуйста, введи своё имя:');
+    if (!userName) alert('Имя не может быть пустым!');
+  }
+
+  // Переменные для элементов
+  const survey = document.getElementById('survey');
+  const mainQuestion = document.getElementById('mainQuestion');
+  const letter = document.getElementById('letter');
+
+  const q1 = document.getElementById('q1');
+  const q2 = document.getElementById('q2');
+  const q3 = document.getElementById('q3');
+
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const message = document.getElementById('message');
+  const timerMessage = document.getElementById('timerMessage');
+
+  let noClicks = 0;
+
+  // Обработка кнопок опроса
+  function nextQuestion(current, next) {
+    current.classList.add('hidden');
+    next.classList.remove('hidden');
+  }
+
+  survey.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      if (!q2.classList.contains('hidden')) {
+        // q2 кнопки
+        nextQuestion(q2, q3);
+      } else if (!q3.classList.contains('hidden')) {
+        // q3 кнопки
+        survey.classList.add('hidden');
+        mainQuestion.classList.remove('hidden');
+      } else {
+        // q1 кнопки
+        nextQuestion(q1, q2);
+      }
+    }
+  });
+
+  // Позиция кнопки "Нет"
+  noBtn.style.position = 'absolute';
+  noBtn.style.left = '50%';
+  noBtn.style.top = '0';
+
+  noBtn.addEventListener('click', () => {
+    noClicks++;
+    message.textContent = `Ты уже пытался(ась) нажать "Нет" ${noClicks} раз, но я всё равно жду "Да"!`;
+
+    // Телепортируем кнопку "Нет"
+    const x = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
+    const y = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight - 150)) + 50;
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+
+    // Показываем письмо после 2-го нажатия
+    if (noClicks === 2) {
+      letter.classList.remove('hidden');
+    }
+  });
+
+  yesBtn.addEventListener('click', (e) => {
+    message.textContent = `УРАААААА наконец то, ${userName}!`;
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+
+    // Показать письмо
+    letter.classList.remove('hidden');
+
+    // Анимация сердца
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = (e.clientX - 25) + 'px';
+    heart.style.top = (e.clientY - 25) + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 1500);
+  });
+
+  // Таймер подсказка через 10 секунд после главного вопроса
+  function startTimer() {
+    setTimeout(() => {
+      timerMessage.textContent = 'Карина, подумай хорошенько!';
+    }, 10000);
+  }
+
+  // Запуск таймера, когда показываем главный вопрос
+  const observer = new MutationObserver(() => {
+    if (!mainQuestion.classList.contains('hidden')) {
+      startTimer();
+      observer.disconnect();
+    }
+  });
+  observer.observe(mainQuestion, { attributes: true, attributeFilter: ['class'] });
+
+</script>
+
 </body>
 </html>
