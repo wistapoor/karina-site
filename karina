@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карина 💖</title>
+<style>
+  body {
+    background-color: pink;
+    background-image: radial-gradient(white 1px, transparent 1px),
+                      radial-gradient(white 1px, transparent 1px);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS", cursive;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: crimson;
+    font-size: 2em;
+    text-shadow: 1px 1px 2px white;
+  }
+
+  .buttons {
+    margin-top: 30px;
+  }
+
+  button {
+    background-color: white;
+    border: 2px solid hotpink;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    margin: 0 15px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background-color: hotpink;
+    color: white;
+  }
+
+  #message {
+    margin-top: 30px;
+    font-size: 2em;
+    color: red;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px white;
+  }
+</style>
+</head>
+<body>
+  <h1>Карина, ты передумала? 💕</h1>
+  <div class="buttons">
+    <button id="yesBtn">Да</button>
+    <button id="noBtn">Нет</button>
+  </div>
+  <div id="message"></div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const message = document.getElementById("message");
+
+    yesBtn.addEventListener("click", () => {
+      message.textContent = "УРАААААА наконец то 🎉💖";
+    });
+
+    noBtn.addEventListener("click", () => {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+  </script>
+</body>
+</html>
